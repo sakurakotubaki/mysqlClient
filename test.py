@@ -57,10 +57,15 @@ def add_task(connection, title):
         cursor = connection.cursor()
         cursor.execute(add_task_query, task)
         connection.commit()
+    except Exception as e:
+        connection.rollback()
+        print("Error:", e)
 
 if __name__ == '__main__':
     connection = connect_to_database()
 
     if connection:
-        create_table(connection)
+        # create_table(connection)
+        task = "洗濯をする"
+        add_task(connection, task)
         connection.close()
