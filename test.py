@@ -61,11 +61,33 @@ def add_task(connection, title):
         connection.rollback()
         print("Error:", e)
 
+# DELETE
+def delete_task(connection, id):
+    try:
+        delete_task_query = """
+            DELETE FROM task WHERE id = %s
+        """
+        task = (id,)
+        cursor = connection.cursor()
+
+        cursor.execute(delete_task_query, task)
+        connection.commit()
+        print(f"Task ID {id} を削除しました")
+
+    except Exception as e:
+        connection.rollback()
+        print("Error:", e)
+    finally:
+        cursor.close()
+
+
 if __name__ == '__main__':
     connection = connect_to_database()
 
     if connection:
         # create_table(connection)
         task = "洗濯をする"
-        add_task(connection, task)
+        # add_task(connection, task)
+        id = 1
+        delete_task(connection, id)
         connection.close()
